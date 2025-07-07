@@ -27,14 +27,16 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // --- Panel Navigasi (Media, Payment, Script) ---
+    // --- Panel Navigasi (Media, Payment, Function Bug) ---
     const goToMediaBtn = document.getElementById('go-to-media-btn');
     const goToPaymentBtn = document.getElementById('go-to-payment-btn');
-    const goToScriptBtn = document.getElementById('go-to-script-btn');
-    
+    const goToFunctionBugBtn = document.getElementById('go-to-function-bug-btn'); // Button for Function Bug
+    const adminAccessBtn = document.getElementById('admin-access-btn'); // Admin access button
+
     const mediaPanel = document.getElementById('media-panel');
     const paymentPanel = document.getElementById('payment-panel');
-    const scriptPanel = document.getElementById('script-panel');
+    const functionBugPanel = document.getElementById('function-bug-panel'); // Panel for Function Bug
+    const adminLoginPanel = document.getElementById('admin-login-panel'); // Admin login panel
 
     const closeButtons = document.querySelectorAll('.close-btn');
 
@@ -42,62 +44,169 @@ document.addEventListener('DOMContentLoaded', () => {
     const closeAllPanels = () => {
         mediaPanel.classList.remove('open');
         paymentPanel.classList.remove('open');
-        scriptPanel.classList.remove('open');
+        functionBugPanel.classList.remove('open');
+        adminLoginPanel.classList.add('hidden-panel'); // Ensure login panel is hidden
     };
 
     goToMediaBtn.addEventListener('click', () => {
-        closeAllPanels(); // Tutup panel lain terlebih dahulu
+        closeAllPanels();
         mediaPanel.classList.add('open');
     });
 
     goToPaymentBtn.addEventListener('click', () => {
-        closeAllPanels(); // Tutup panel lain terlebih dahulu
+        closeAllPanels();
         paymentPanel.classList.add('open');
     });
 
-    goToScriptBtn.addEventListener('click', () => {
-        closeAllPanels(); // Tutup panel lain terlebih dahulu
-        scriptPanel.classList.add('open');
+    goToFunctionBugBtn.addEventListener('click', () => { // Event listener for Function Bug
+        closeAllPanels();
+        functionBugPanel.classList.add('open');
+    });
+
+    adminAccessBtn.addEventListener('click', () => {
+        closeAllPanels();
+        adminLoginPanel.classList.remove('hidden-panel'); // Show admin login panel
+        document.getElementById('admin-username').value = ''; // Clear fields
+        document.getElementById('admin-password').value = '';
+        document.getElementById('admin-login-message').textContent = '';
+        document.getElementById('admin-login-message').classList.remove('show');
     });
 
     closeButtons.forEach(button => {
         button.addEventListener('click', (e) => {
-            // Dapatkan elemen panel terdekat dari tombol close yang diklik
-            const panelToClose = e.target.closest('.side-panel');
+            // Find the closest panel or popup-overlay parent
+            const panelToClose = e.target.closest('.side-panel') || e.target.closest('.popup-overlay');
             if (panelToClose) {
                 panelToClose.classList.remove('open');
+                panelToClose.classList.add('hidden-panel'); // Hide login popup if it's the target
             }
         });
     });
 
-    // --- Fungsi Salin ke Clipboard ---
-    const copyButtons = document.querySelectorAll('.copy-btn');
-    copyButtons.forEach(button => {
-        button.addEventListener('click', async (e) => {
-            const textToCopy = e.target.dataset.text;
+    // --- Admin Login Functionality ---
+    const adminUsernameInput = document.getElementById('admin-username');
+    const adminPasswordInput = document.getElementById('admin-password');
+    const adminLoginBtn = document.getElementById('admin-login-btn');
+    const adminLoginMessage = document.getElementById('admin-login-message');
+    const addFunctionSection = document.getElementById('add-function-section'); // Section to add functions
+
+    // Admin Credentials (INSECURE - for frontend demo only. DO NOT USE IN PRODUCTION)
+    const ADMIN_USERNAME = 'Annas';
+    const ADMIN_PASSWORD = '1';
+
+    let isAdminLoggedIn = false;
+
+    adminLoginBtn.addEventListener('click', () => {
+        const username = adminUsernameInput.value;
+        const password = adminPasswordInput.value;
+
+        if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
+            isAdminLoggedIn = true;
+            adminLoginPanel.classList.add('hidden-panel');
+            addFunctionSection.classList.add('visible'); // Show admin-only section
+            alert('Login Admin Berhasil! Anda sekarang dapat menambahkan fungsi.');
+        } else {
+            adminLoginMessage.textContent = 'Username atau password salah!';
+            adminLoginMessage.classList.add('show');
+        }
+    });
+
+    // --- Add Dynamic Function (Admin Only) ---
+    const newFunctionTitleInput = document.getElementById('new-function-title');
+    const newFunctionEffectInput = document.getElementById('new-function-effect');
+    const newFunctionCodeTextarea = document.getElementById('new-function-code');
+    const addFunctionBtn = document.getElementById('add-function-btn');
+    const dynamicFunctionsContainer = document.getElementById('dynamic-functions-container');
+
+    // Load functions from localStorage (simulated persistence)
+    // Initialize with a default empty array if nothing is stored
+    let dynamicFunctions = JSON.parse(localStorage.getItem('dynamicFunctions')) || [];
+
+    const renderDynamicFunctions = () => {
+        dynamicFunctionsContainer.innerHTML = ''; // Clear existing
+        dynamicFunctions.forEach((func, index) => {
+            const functionItem = document.createElement('div');
+            functionItem.classList.add('function-item');
+            functionItem.innerHTML = `
+                <h3>${func.title}</h3>
+                <pre class="code-block" data-function-id="dynamic_func_${index}">${func.code}</pre>
+                <button class="copy-code-btn" data-target="dynamic_func_${index}">Salin Kode</button>
+                <p class="effect-text">EFFECT: ${func.effect}</p>
+            `;
+            dynamicFunctionsContainer.appendChild(functionItem);
+        });
+        // Re-attach event listeners for new copy buttons
+        attachCopyCodeListeners();
+    };
+
+    addFunctionBtn.addEventListener('click', () => {
+        if (!isAdminLoggedIn) {
+            alert('Anda harus login sebagai Admin untuk menambahkan fungsi!');
+            return;
+        }
+
+        const title = newFunctionTitleInput.value.trim();
+        const effect = newFunctionEffectInput.value.trim();
+        const code = newFunctionCodeTextarea.value.trim();
+
+        if (title && effect && code) {
+            dynamicFunctions.push({ title, effect, code });
+            localStorage.setItem('dynamicFunctions', JSON.stringify(dynamicFunctions)); // Save to local storage
+            renderDynamicFunctions(); // Re-render to show new function
+            // Clear input fields
+            newFunctionTitleInput.value = '';
+            newFunctionEffectInput.value = '';
+            newFunctionCodeTextarea.value = '';
+            alert('Fungsi berhasil ditambahkan!');
+        } else {
+            alert('Mohon isi semua kolom untuk menambahkan fungsi!');
+        }
+    });
+
+    // Initial render of dynamic functions when the page loads
+    renderDynamicFunctions();
+
+    // --- Copy Code Functionality ---
+    // Function to attach listeners (re-usable for dynamic content)
+    function attachCopyCodeListeners() {
+        const copyCodeButtons = document.querySelectorAll('.copy-code-btn');
+        copyCodeButtons.forEach(button => {
+            // Remove existing listener to prevent duplicates
+            button.removeEventListener('click', handleCopyCode);
+            button.addEventListener('click', handleCopyCode);
+        });
+    }
+
+    async function handleCopyCode(e) {
+        const targetId = e.target.dataset.target;
+        const codeBlock = document.querySelector(`.code-block[data-function-id="${targetId}"]`);
+        if (codeBlock) {
             try {
-                await navigator.clipboard.writeText(textToCopy);
-                const originalText = button.textContent;
-                button.textContent = 'Tersalin!';
-                // Memberi feedback visual singkat
-                button.style.backgroundColor = 'var(--primary-color)';
+                await navigator.clipboard.writeText(codeBlock.textContent.trim());
+                const originalText = e.target.textContent;
+                e.target.textContent = 'Tersalin!';
+                e.target.style.backgroundColor = 'var(--primary-color)';
                 setTimeout(() => {
-                    button.textContent = originalText;
-                    button.style.backgroundColor = ''; // Kembalikan warna asli
+                    e.target.textContent = originalText;
+                    e.target.style.backgroundColor = '';
                 }, 1500);
             } catch (err) {
-                console.error('Gagal menyalin:', err);
-                alert('Gagal menyalin. Silakan salin manual: ' + textToCopy);
+                console.error('Failed to copy code: ', err);
+                alert('Gagal menyalin kode. Silakan salin manual.');
             }
-        });
-    });
+        }
+    }
+
+    // Attach initial copy code listeners (for the default XrL function)
+    attachCopyCodeListeners();
+
 
     // --- Tombol Unduh QR (mengambil dari Catbox.moe) ---
     const downloadQrBtn = document.querySelector('.download-qr-btn');
     if (downloadQrBtn) {
         downloadQrBtn.addEventListener('click', () => {
             const qrImageUrl = document.querySelector('.qr-code-img').src;
-            // Cek apakah URL QR code valid (contoh: mengandung catbox.moe atau setidaknya http/https)
+            // Cek apakah URL QR code valid (contoh: mengandung http/https)
             if (qrImageUrl && (qrImageUrl.startsWith('http://') || qrImageUrl.startsWith('https://'))) {
                 const link = document.createElement('a');
                 link.href = qrImageUrl;
@@ -114,30 +223,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Efek Mengetik untuk Bagian "Tentang Annas" ---
     const aboutTextElement = document.getElementById('about-text');
-    const fullText = `Annas Nasrullah Adalah Seorang Developer Pemula Yang Sedang Terjun Ke Dunia Coding. Berusia 18 Tahun, Annas Bersemangat Dalam Mengembangkan Solusi Digital.
-    
-Benefit Script ASOPOU x Funtion 
-    
-Funtion Bug WhatsApp 
-• Force close 
-• Delay Hard 
-• Sedot Paket Atau Download Sebuah file dengan 1gb dan 1000gb
-• Cash Home
-• Ui Sistem Hp Akan Hitam Layar nya berapa menit 
+    const fullText = `Annas Nasrullah adalah sosok muda berusia 18 tahun yang tidak hanya bermimpi, tapi bergerak. Ia melangkah ke dunia coding bukan sekadar untuk belajar, tapi untuk menciptakan. Dalam sunyi malam dan layar gelap, jemarinya menari di atas keyboard, menulis masa depan baris demi baris.
 
-SCRIPT ASOPOU  🤓
+Ia bukan sekadar developer pemula. Ia adalah arsitek ide, pemburu solusi, dan pejuang logika yang tak kenal lelah. Saat yang lain sibuk bermain, Annas sibuk membangun. Bukan karena terpaksa, tapi karena cinta pada dunia digital yang terus berkembang.
 
-Fitur Lainnya 
-• Fitur Jaga Group
-• Fitur Download 
- - tiktok
-- YouTube 
-• Fitur Pushkontak
-- khusus grup 
-- khusus menggunakan Id Grup 
-• Fitur Bug
-•Dll`;
+Di balik error yang muncul, ia menemukan tantangan. Di balik bug yang membandel, ia melihat kesempatan. Ia tahu, setiap kegagalan hanya batu loncatan menuju keberhasilan. Dan di dunia yang dipenuhi algoritma dan kemungkinan tak terbatas, Annas memilih untuk menjadi pembeda.
 
+Ia tidak menunggu masa depan, ia sedang menulisnya. Dan dunia, cepat atau lambat, akan mengenal nama Annas Nasrullah bukan sebagai pemula, tapi sebagai sosok yang mengubah arah teknologi dengan keberanian dan tekadnya sendiri.
+
+)`;
 
     let charIndex = 0;
     let typingInterval;
@@ -147,7 +241,7 @@ Fitur Lainnya
             aboutTextElement.textContent += fullText.charAt(charIndex);
             charIndex++;
             // Sesuaikan kecepatan mengetik di sini (nilai lebih kecil = lebih cepat)
-            typingInterval = setTimeout(typeChar, 30); // 30 milidetik per karakter (sedikit lebih cepat)
+            typingInterval = setTimeout(typeChar, 30); // 30 milidetik per karakter
         } else {
             // Setelah selesai mengetik, tambahkan kelas untuk efek glitch/pulse
             aboutTextElement.classList.add('finished');
@@ -162,6 +256,4 @@ Fitur Lainnya
         clearTimeout(typingInterval); // Hapus interval yang mungkin masih berjalan
         typeChar(); // Mulai efek mengetik
     }
-
-    // Catatan: startTypingEffect dipanggil setelah pop-up ditutup oleh pengguna.
 });

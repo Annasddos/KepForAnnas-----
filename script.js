@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (ageConsentCheckbox.checked) {
             welcomePopup.classList.add('hidden'); // Sembunyikan pop-up dengan animasi
             // Mulai efek mengetik setelah pop-up benar-benar hilang
-            setTimeout(startTypingEffect, 400); // Durasi disesuaikan dengan transisi CSS pop-up
+            setTimeout(startTypingEffect, 600); // Durasi disesuaikan dengan transisi CSS pop-up (lebih lama karena animasinya lebih smooth)
         } else {
             consentWarning.textContent = 'Mohon centang panduan kami untuk melanjutkan.';
             consentWarning.classList.add('show'); // Tampilkan peringatan
@@ -62,8 +62,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     closeButtons.forEach(button => {
         button.addEventListener('click', (e) => {
-            const panelId = e.target.dataset.panel;
-            const panelToClose = document.getElementById(panelId);
+            // Dapatkan elemen panel terdekat dari tombol close yang diklik
+            const panelToClose = e.target.closest('.side-panel');
             if (panelToClose) {
                 panelToClose.classList.remove('open');
             }
@@ -114,7 +114,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Efek Mengetik untuk Bagian "Tentang Annas" ---
     const aboutTextElement = document.getElementById('about-text');
-    const fullText = `Annas Nasrullah Adalah Seorang Developer Pemula Yang Sedang Terjun Ke Dunia Coding. Berusia 18 Tahun, Annas Bersemangat Dalam Mengembangkan Solusi Digital. Benefit Script ASOPOU x Funtion 
+    const fullText = `Annas Nasrullah Adalah Seorang Developer Pemula Yang Sedang Terjun Ke Dunia Coding. Berusia 18 Tahun, Annas Bersemangat Dalam Mengembangkan Solusi Digital.
+    
+Benefit Script ASOPOU x Funtion 
     
 Funtion Bug WhatsApp 
 • Force close 
@@ -136,6 +138,7 @@ Fitur Lainnya
 • Fitur Bug
 •Dll`;
 
+
     let charIndex = 0;
     let typingInterval;
 
@@ -144,7 +147,7 @@ Fitur Lainnya
             aboutTextElement.textContent += fullText.charAt(charIndex);
             charIndex++;
             // Sesuaikan kecepatan mengetik di sini (nilai lebih kecil = lebih cepat)
-            typingInterval = setTimeout(typeChar, 40); // 40 milidetik per karakter
+            typingInterval = setTimeout(typeChar, 30); // 30 milidetik per karakter (sedikit lebih cepat)
         } else {
             // Setelah selesai mengetik, tambahkan kelas untuk efek glitch/pulse
             aboutTextElement.classList.add('finished');

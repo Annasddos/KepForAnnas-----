@@ -5,13 +5,14 @@
 :root {
     --primary-color: #00ffff; /* Neon Cyan */
     --secondary-color: #ff00ff; /* Neon Magenta */
+    --accent-color: #00ff00; /* Neon Hijau */
     --dark-bg: #1a1a2e; /* Biru Gelap ke Ungu */
     --mid-bg: #2a2a4a; /* Ungu Lebih Cerah */
     --light-bg: #3b3b6b; /* Ungu Kebiruan */
     --text-color: #e0e0e0; /* Abu-abu Terang */
     --error-color: #ff6347; /* Merah Oranye */
     --success-color: #4CAF50; /* Hijau */
-    --panel-width-desktop: 350px;
+    --panel-width-desktop: 380px; /* Lebar panel diperluas sedikit */
 }
 
 * {
@@ -31,6 +32,9 @@ body {
     align-items: center;
     line-height: 1.6;
     scroll-behavior: smooth; /* Scrolling halus */
+    /* Menambahkan background noise untuk tekstur lebih keren */
+    background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIj48ZmlsdGVyIGlkPSJmIj48ZmVDb2xvck1hdHJpeCB0eXBlPSJtYXRyaXgiIHZhbHVlcz0iLjMzMzMgLjMzMzMgLjMzMzMgMCAwIC4zMzMzIC4zMzMzIC4zMzMzIDAgMCAuMzMzMyAuMzMzMyAuMzMzMyAwIDAgMCAwIDAgMSAwIi8+PGZlTm9pc2UgdHlwZT0idHVyYnVsZW5jZSIgYmFzZUZyZXF1ZW5jeT0iLjUiIG51bU9jdGF2ZXM9IjIiIHN0aXRjaFRpbGVzPSJzdGl0Y2hBdmFpbGFibGUiLz48ZmVDb21wb3NpdGUgaW49IkZpbHRlck5vaXNlIiBpbjI9IlNvdXJjZUdyYXBoaWMiIG9wZXJhdG9yPSJsaWdodGVuIi8+PC9maWx0ZXI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI2RhZGFkYSIgZmlsdGVyPSJ1cmwoI2YpIiBvcGFjaXR5PSIwLjA1Ii8+PC9zdmc+');
+    background-size: 100px;
 }
 
 /* --- Pop-up Pemberitahuan Awal --- */
@@ -40,7 +44,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.9); /* Latar belakang gelap transparan */
+    background-color: rgba(0, 0, 0, 0.95); /* Latar belakang lebih gelap transparan */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -57,37 +61,39 @@ body {
 
 .popup-content {
     background-color: var(--mid-bg);
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 0 30px rgba(var(--primary-color), 0.7); /* Efek neon glow */
+    padding: 40px; /* Padding lebih besar */
+    border-radius: 15px; /* Sudut lebih membulat */
+    box-shadow: 0 0 40px rgba(var(--primary-color), 0.8), 0 0 80px rgba(var(--secondary-color), 0.5); /* Efek neon glow lebih kuat */
     text-align: center;
-    max-width: 500px;
+    max-width: 550px; /* Lebar maksimal lebih besar */
     width: 90%;
     transform: translateY(-20px);
     opacity: 0;
-    animation: popup-fade-in 0.6s forwards cubic-bezier(0.2, 0.8, 0.2, 1); /* Animasi muncul */
+    animation: popup-fade-in 0.8s forwards cubic-bezier(0.2, 0.8, 0.2, 1); /* Animasi muncul lebih smooth */
+    border: 2px solid var(--primary-color); /* Border neon */
 }
 
 @keyframes popup-fade-in {
-    from { opacity: 0; transform: translateY(-50px) scale(0.9); }
-    to { opacity: 1; transform: translateY(0) scale(1); }
+    from { opacity: 0; transform: translateY(-80px) scale(0.8); filter: blur(10px); }
+    to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
 }
 
 .popup-content h2 {
     color: var(--primary-color);
-    margin-bottom: 15px;
+    margin-bottom: 20px;
     font-family: 'Orbitron', sans-serif;
-    font-size: 1.8em;
-    text-shadow: 0 0 10px var(--primary-color);
+    font-size: 2.2em; /* Ukuran judul lebih besar */
+    text-shadow: 0 0 15px var(--primary-color), 0 0 30px var(--secondary-color);
 }
 
 .popup-content p {
-    margin-bottom: 20px;
-    font-size: 1em;
+    margin-bottom: 25px;
+    font-size: 1.1em; /* Ukuran teks lebih besar */
+    color: var(--text-color);
 }
 
 .checkbox-container {
-    margin-bottom: 20px;
+    margin-bottom: 25px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -95,65 +101,71 @@ body {
 }
 
 .checkbox-container input[type="checkbox"] {
-    appearance: none; /* Sembunyikan checkbox default */
-    width: 20px;
-    height: 20px;
-    border: 2px solid var(--primary-color);
-    border-radius: 4px;
-    margin-right: 10px;
+    appearance: none;
+    width: 24px; /* Ukuran checkbox lebih besar */
+    height: 24px;
+    border: 3px solid var(--primary-color); /* Border lebih tebal */
+    border-radius: 6px;
+    margin-right: 12px;
     position: relative;
     cursor: pointer;
-    transition: background-color 0.2s ease, border-color 0.2s ease;
+    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 0 8px rgba(var(--primary-color), 0.5);
 }
 
 .checkbox-container input[type="checkbox"]:checked {
     background-color: var(--primary-color);
     border-color: var(--primary-color);
+    box-shadow: 0 0 15px var(--primary-color);
 }
 
 .checkbox-container input[type="checkbox"]:checked::after {
-    content: '\2713'; /* Karakter centang Unicode */
+    content: '\2713';
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    color: var(--mid-bg); /* Warna centang */
-    font-size: 14px;
+    color: var(--mid-bg);
+    font-size: 16px; /* Ukuran centang lebih besar */
     font-weight: bold;
 }
 
 .checkbox-container label {
     cursor: pointer;
-    font-size: 0.95em;
+    font-size: 1.05em;
     user-select: none;
+    color: var(--text-color);
 }
 
 .popup-content button {
-    background-color: var(--success-color);
+    background-color: var(--accent-color); /* Warna tombol OK */
     color: var(--dark-bg);
     border: none;
-    padding: 12px 30px;
-    border-radius: 5px;
+    padding: 15px 40px; /* Padding lebih besar */
+    border-radius: 8px; /* Sudut lebih membulat */
     cursor: pointer;
-    font-size: 1.1em;
+    font-size: 1.2em; /* Ukuran teks tombol lebih besar */
     font-weight: bold;
     transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-    box-shadow: 0 0 15px rgba(var(--success-color), 0.5);
+    box-shadow: 0 0 20px rgba(var(--accent-color), 0.7);
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 .popup-content button:hover {
-    background-color: #3cb840; /* Sedikit lebih gelap */
-    transform: translateY(-3px);
-    box-shadow: 0 0 25px rgba(var(--success-color), 0.8);
+    background-color: #00e600; /* Sedikit lebih gelap */
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 0 35px rgba(var(--accent-color), 1), 0 0 60px rgba(var(--accent-color), 0.6);
 }
 
 .warning-text {
     color: var(--error-color);
-    margin-top: 10px;
-    font-size: 0.9em;
-    height: 1.2em; /* Memesan ruang agar tidak ada layout shift */
+    margin-top: 15px;
+    font-size: 1em;
+    height: 1.5em;
     opacity: 0;
     transition: opacity 0.3s ease;
+    font-weight: bold;
 }
 
 .warning-text.show {
@@ -166,66 +178,80 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 50px 20px 30px;
-    background: linear-gradient(to bottom, var(--dark-bg), rgba(26, 26, 46, 0.5));
+    padding: 60px 20px 40px; /* Padding lebih besar */
+    background: linear-gradient(to bottom, var(--dark-bg), rgba(26, 26, 46, 0.7));
     position: relative;
     z-index: 10;
+    border-bottom: 2px solid var(--secondary-color); /* Border bawah header */
+    box-shadow: 0 5px 20px rgba(0,0,0,0.5);
 }
 
 .profile-area {
     text-align: center;
     position: relative;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
 }
 
 .profile-pic-wrapper {
     position: relative;
-    width: 200px; /* Ukuran foto profil */
-    height: 200px;
+    width: 220px; /* Ukuran foto profil lebih besar */
+    height: 220px;
     border-radius: 50%;
-    overflow: hidden; /* Penting untuk efek border */
+    overflow: hidden;
     margin: 0 auto;
-    box-shadow: 0 0 20px var(--primary-color); /* Glow di sekitar wrapper */
+    box-shadow: 0 0 30px var(--primary-color), 0 0 60px rgba(var(--primary-color), 0.5); /* Glow lebih kuat */
     display: flex;
     justify-content: center;
     align-items: center;
+    /* Menambahkan efek warna keliling */
+    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color), var(--accent-color), var(--primary-color));
+    background-size: 400% 400%;
+    animation: gradient-border-anim 10s ease infinite; /* Animasi gradien */
+    padding: 5px; /* Padding untuk border gradien */
+}
+
+@keyframes gradient-border-anim {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
 .profile-pic {
-    width: 100%;
-    height: 100%;
+    width: calc(100% - 10px); /* Sesuaikan dengan padding wrapper */
+    height: calc(100% - 10px);
     object-fit: cover;
     display: block;
     border-radius: 50%;
-    z-index: 2; /* Agar foto di atas efek */
+    z-index: 2;
     position: relative;
+    border: 4px solid var(--dark-bg); /* Border gelap di sekitar foto */
 }
 
-/* Efek "Jalan" di Minggir Foto */
+/* Efek "Jalan" di Minggir Foto (diperbarui) */
 .profile-pic-wrapper::before,
 .profile-pic-wrapper::after {
     content: '';
     position: absolute;
     border-radius: 50%;
-    z-index: 1; /* Di bawah foto */
-    animation: neon-border-walk 4s infinite linear; /* Animasi berputar */
+    z-index: 1; /* Di bawah foto, di atas background gradien */
+    animation: neon-border-walk 6s infinite linear; /* Animasi berputar lebih lambat */
+    filter: blur(8px); /* Blur lebih kuat untuk efek glow */
+    opacity: 0.8;
 }
 
 .profile-pic-wrapper::before {
-    top: -5px; left: -5px; right: -5px; bottom: -5px; /* Sedikit lebih besar dari foto */
-    border: 5px solid transparent;
-    border-image: linear-gradient(45deg, var(--primary-color), var(--secondary-color), var(--primary-color));
-    border-image-slice: 1; /* Membuat border gradien */
+    top: -8px; left: -8px; right: -8px; bottom: -8px;
+    border: 6px solid transparent;
+    border-image: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+    border-image-slice: 1;
 }
 
 .profile-pic-wrapper::after {
-    top: -10px; left: -10px; right: -10px; bottom: -10px; /* Lebih besar lagi */
-    border: 2px solid transparent;
-    border-image: linear-gradient(-45deg, var(--secondary-color), var(--primary-color), var(--secondary-color));
+    top: -15px; left: -15px; right: -15px; bottom: -15px;
+    border: 3px solid transparent;
+    border-image: linear-gradient(-90deg, var(--secondary-color), var(--accent-color));
     border-image-slice: 1;
-    filter: blur(5px); /* Memberi efek glow */
-    opacity: 0.7;
-    animation-delay: 0.5s; /* Sedikit delay agar terlihat berbeda */
+    animation-delay: 0.5s;
 }
 
 @keyframes neon-border-walk {
@@ -236,55 +262,73 @@ body {
 .profile-name {
     color: #fff;
     font-family: 'Orbitron', sans-serif;
-    font-size: 3em;
-    text-shadow: 0 0 15px var(--primary-color), 0 0 30px var(--secondary-color); /* Efek neon */
-    margin-top: 20px;
-    transition: transform 0.3s ease, text-shadow 0.3s ease;
+    font-size: 3.5em; /* Ukuran nama lebih besar */
+    text-shadow: 0 0 20px var(--primary-color), 0 0 40px var(--secondary-color), 0 0 60px var(--accent-color); /* Efek neon lebih kuat */
+    margin-top: 25px;
+    transition: transform 0.4s ease, text-shadow 0.4s ease;
+    letter-spacing: 2px;
 }
 
 .profile-name:hover {
-    transform: scale(1.05); /* Membesar sedikit saat hover */
-    text-shadow: 0 0 20px var(--primary-color), 0 0 40px var(--secondary-color), 0 0 60px var(--primary-color);
+    transform: scale(1.1); /* Membesar lebih saat hover */
+    text-shadow: 0 0 25px var(--primary-color), 0 0 50px var(--secondary-color), 0 0 80px var(--accent-color), 0 0 100px var(--primary-color);
 }
 
 .main-nav {
     display: flex;
-    gap: 30px;
-    margin-top: 30px;
+    gap: 40px; /* Jarak antar tombol lebih lebar */
+    margin-top: 40px;
 }
 
 .nav-button {
     background-color: var(--light-bg);
     color: var(--primary-color);
-    padding: 15px 35px;
-    border: 2px solid var(--primary-color);
-    border-radius: 8px;
+    padding: 18px 40px; /* Padding lebih besar */
+    border: 3px solid var(--primary-color); /* Border lebih tebal */
+    border-radius: 10px; /* Sudut lebih membulat */
     cursor: pointer;
-    font-size: 1.2em;
+    font-size: 1.3em; /* Ukuran teks tombol lebih besar */
     font-weight: bold;
-    transition: all 0.3s ease;
-    box-shadow: 0 0 15px rgba(var(--primary-color), 0.5);
+    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); /* Transisi lebih smooth */
+    box-shadow: 0 0 20px rgba(var(--primary-color), 0.6);
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 1.5px;
+    position: relative;
+    overflow: hidden; /* Untuk efek hover */
+}
+
+.nav-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(var(--primary-color), 0.2), transparent);
+    transition: all 0.4s ease-out;
+}
+
+.nav-button:hover::before {
+    left: 100%;
 }
 
 .nav-button:hover {
     background-color: var(--primary-color);
     color: var(--dark-bg);
-    transform: translateY(-5px) scale(1.02);
-    box-shadow: 0 0 25px rgba(var(--primary-color), 0.8), 0 0 40px rgba(var(--secondary-color), 0.5);
+    transform: translateY(-8px) scale(1.05); /* Efek hover lebih dramatis */
+    box-shadow: 0 0 30px rgba(var(--primary-color), 1), 0 0 50px rgba(var(--secondary-color), 0.7);
 }
 
 /* --- Konten Utama Website --- */
 .main-content {
     width: 100%;
-    max-width: 1000px;
-    padding: 30px 20px;
+    max-width: 1100px; /* Lebar konten lebih besar */
+    padding: 40px 30px; /* Padding lebih besar */
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
     align-items: center;
-    flex-grow: 1; /* Memungkinkan konten untuk mengisi ruang */
+    flex-grow: 1;
 }
 
 /* --- Panel Samping (Media, Payment, Script) --- */
@@ -295,15 +339,16 @@ body {
     width: var(--panel-width-desktop);
     height: 100%;
     background-color: var(--mid-bg);
-    box-shadow: -10px 0 30px rgba(var(--primary-color), 0.4);
-    padding: 40px 30px;
+    box-shadow: -15px 0 40px rgba(var(--primary-color), 0.6); /* Shadow lebih kuat */
+    padding: 50px 35px; /* Padding lebih besar */
     box-sizing: border-box;
-    transition: right 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55); /* Efek memantul */
+    transition: right 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55); /* Efek memantul lebih smooth */
     z-index: 999;
     display: flex;
     flex-direction: column;
     align-items: center;
-    overflow-y: auto; /* Memungkinkan scrolling jika konten melebihi tinggi */
+    overflow-y: auto;
+    border-left: 3px solid var(--secondary-color); /* Border kiri panel */
 }
 
 .side-panel.open {
@@ -312,228 +357,273 @@ body {
 
 .side-panel h2 {
     color: var(--primary-color);
-    margin-bottom: 25px;
+    margin-bottom: 30px;
     font-family: 'Orbitron', sans-serif;
     text-align: center;
-    font-size: 1.8em;
-    text-shadow: 0 0 8px var(--primary-color);
+    font-size: 2.2em; /* Ukuran judul lebih besar */
+    text-shadow: 0 0 10px var(--primary-color), 0 0 20px var(--secondary-color);
 }
 
 .side-panel .close-btn {
     position: absolute;
-    top: 20px;
-    right: 20px;
+    top: 25px;
+    right: 25px;
     background: none;
     border: none;
     color: var(--text-color);
-    font-size: 1.8em;
+    font-size: 2.2em; /* Ukuran ikon close lebih besar */
     cursor: pointer;
     transition: color 0.3s ease, transform 0.3s ease;
-    padding: 5px;
+    padding: 8px;
+    border-radius: 50%;
 }
 
 .side-panel .close-btn:hover {
     color: var(--error-color);
-    transform: rotate(90deg) scale(1.2);
+    transform: rotate(180deg) scale(1.3); /* Rotasi lebih dramatis */
+    text-shadow: 0 0 10px var(--error-color);
 }
 
 .panel-separator {
-    width: 80%;
-    height: 2px;
-    background: linear-gradient(to right, transparent, var(--secondary-color), transparent);
-    margin-bottom: 40px;
-    border-radius: 1px;
-    box-shadow: 0 0 10px var(--secondary-color);
+    width: 90%;
+    height: 3px; /* Lebih tebal */
+    background: linear-gradient(to right, transparent, var(--secondary-color), var(--accent-color), transparent); /* Gradien multi-warna */
+    margin-bottom: 50px; /* Jarak lebih besar */
+    border-radius: 2px;
+    box-shadow: 0 0 15px var(--secondary-color), 0 0 25px var(--accent-color);
 }
 
 .media-links, .payment-methods, .script-features ul {
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 25px; /* Jarak antar item lebih lebar */
 }
 
 .media-item, .payment-item {
     display: flex;
     align-items: center;
     background-color: var(--light-bg);
-    padding: 18px;
-    border-radius: 10px;
+    padding: 20px; /* Padding lebih besar */
+    border-radius: 12px; /* Sudut lebih membulat */
     transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-    box-shadow: 0 0 10px rgba(var(--primary-color), 0.2);
-    text-decoration: none; /* Untuk link */
+    box-shadow: 0 0 12px rgba(var(--primary-color), 0.3);
+    text-decoration: none;
     color: var(--text-color);
+    position: relative;
+    overflow: hidden;
+}
+
+.media-item::before, .payment-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, rgba(var(--primary-color), 0.1), rgba(var(--secondary-color), 0.1));
+    z-index: 0;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.media-item:hover::before, .payment-item:hover::before {
+    opacity: 1;
 }
 
 .media-item:hover, .payment-item:hover {
     background-color: #4c4c7c;
-    transform: translateY(-5px);
-    box-shadow: 0 0 20px rgba(var(--primary-color), 0.4);
+    transform: translateY(-8px); /* Efek hover lebih dramatis */
+    box-shadow: 0 0 25px rgba(var(--primary-color), 0.6), 0 0 40px rgba(var(--secondary-color), 0.4);
 }
 
 .media-item i, .payment-item i { /* Untuk ikon Font Awesome */
-    font-size: 1.8em;
-    margin-right: 20px;
+    font-size: 2.2em; /* Ukuran ikon lebih besar */
+    margin-right: 25px;
     color: var(--primary-color);
-    text-shadow: 0 0 5px var(--primary-color);
-}
-
-.media-item img, .payment-item img { /* Untuk ikon gambar lokal */
-    width: 30px;
-    height: 30px;
-    margin-right: 20px;
-    object-fit: contain;
+    text-shadow: 0 0 8px var(--primary-color), 0 0 15px var(--secondary-color);
+    z-index: 1; /* Agar ikon di atas efek */
 }
 
 .media-item span, .payment-item span {
-    font-size: 1.1em;
+    font-size: 1.2em; /* Ukuran teks lebih besar */
     font-weight: bold;
-    flex-grow: 1; /* Agar teks mengisi ruang */
+    flex-grow: 1;
+    z-index: 1;
 }
 
 .payment-item {
     justify-content: space-between;
-    flex-wrap: wrap; /* Untuk tampilan responsif */
+    flex-wrap: wrap;
 }
 
-.payment-item .gopay-logo {
-    width: 40px; /* Ukuran logo GoPay */
+.payment-item .gopay-logo, .payment-item .dana-logo {
+    width: 45px; /* Ukuran logo lebih besar */
     height: auto;
-    margin-right: 15px;
-    filter: brightness(0) invert(1) drop-shadow(0 0 8px #00FFFF); /* Agar logo GoPay putih dan ada glow */
+    margin-right: 18px;
+    object-fit: contain;
+    filter: brightness(0) invert(1) drop-shadow(0 0 10px var(--primary-color)); /* Glow pada logo */
+    z-index: 1;
 }
 
 .copy-btn {
-    background-color: #556ee6; /* Biru terang */
+    background-color: #556ee6;
     color: white;
     border: none;
-    padding: 10px 18px;
-    border-radius: 6px;
+    padding: 12px 20px; /* Padding lebih besar */
+    border-radius: 8px;
     cursor: pointer;
-    font-size: 0.9em;
+    font-size: 1em;
     font-weight: bold;
-    margin-left: 10px;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    box-shadow: 0 0 10px rgba(85, 110, 230, 0.5);
+    margin-left: 15px;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    box-shadow: 0 0 12px rgba(85, 110, 230, 0.6);
+    z-index: 1;
 }
 
 .copy-btn:hover {
     background-color: #4a5dca;
-    transform: scale(1.05);
+    transform: scale(1.08);
+    box-shadow: 0 0 20px rgba(85, 110, 230, 0.9);
 }
 
 .qr-code-section {
     flex-direction: column;
     align-items: center;
-    padding: 25px;
+    padding: 30px; /* Padding lebih besar */
     background-color: #4c4c7c;
-    border-radius: 12px;
-    box-shadow: 0 0 15px rgba(var(--secondary-color), 0.3);
+    border-radius: 15px; /* Sudut lebih membulat */
+    box-shadow: 0 0 20px rgba(var(--secondary-color), 0.5), 0 0 35px rgba(var(--accent-color), 0.3);
+    border: 2px solid var(--secondary-color); /* Border neon */
 }
 
 .qr-code-section h3 {
     color: var(--primary-color);
-    margin-bottom: 20px;
+    margin-bottom: 25px;
     font-family: 'Orbitron', sans-serif;
-    font-size: 1.3em;
-    text-shadow: 0 0 5px var(--primary-color);
+    font-size: 1.5em;
+    text-shadow: 0 0 8px var(--primary-color), 0 0 15px var(--secondary-color);
 }
 
 .qr-code-img {
-    width: 220px;
-    height: 220px;
-    border: 5px solid var(--primary-color);
-    box-shadow: 0 0 20px var(--primary-color), 0 0 40px rgba(var(--secondary-color), 0.5);
-    margin-bottom: 25px;
-    border-radius: 8px;
-    object-fit: contain; /* Agar QR code tidak terdistorsi */
-    background-color: white; /* Pastikan background putih jika QR ada transparansi */
+    width: 250px; /* Ukuran QR lebih besar */
+    height: 250px;
+    border: 6px solid var(--primary-color); /* Border lebih tebal */
+    box-shadow: 0 0 25px var(--primary-color), 0 0 50px rgba(var(--secondary-color), 0.7); /* Glow lebih kuat */
+    margin-bottom: 30px;
+    border-radius: 10px;
+    object-fit: contain;
+    background-color: white;
 }
 
 .download-qr-btn {
-    background-color: var(--success-color);
+    background-color: var(--accent-color);
     color: var(--dark-bg);
     border: none;
-    padding: 12px 25px;
-    border-radius: 6px;
+    padding: 15px 30px; /* Padding lebih besar */
+    border-radius: 8px;
     cursor: pointer;
-    font-size: 1em;
+    font-size: 1.1em;
     font-weight: bold;
     transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-    box-shadow: 0 0 10px rgba(var(--success-color), 0.5);
+    box-shadow: 0 0 15px rgba(var(--accent-color), 0.7);
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 .download-qr-btn:hover {
-    background-color: #3cb840;
-    transform: translateY(-3px);
-    box-shadow: 0 0 20px rgba(var(--success-color), 0.8);
+    background-color: #00e600;
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 0 25px rgba(var(--accent-color), 1), 0 0 40px rgba(var(--accent-color), 0.6);
 }
 
 /* --- Bagian "Go to Script" --- */
 .script-features {
     width: 100%;
     color: var(--text-color);
-    font-size: 1em;
+    font-size: 1.05em;
     line-height: 1.8;
 }
 
 .script-features p {
-    margin-bottom: 20px;
+    margin-bottom: 25px;
     text-align: justify;
+    padding: 0 10px;
 }
 
 .script-features ul {
-    list-style: none; /* Hapus bullet default */
+    list-style: none;
     padding-left: 0;
 }
 
 .script-features ul li {
     background-color: var(--light-bg);
-    padding: 15px 20px;
-    border-radius: 8px;
-    margin-bottom: 15px;
-    box-shadow: 0 0 8px rgba(var(--secondary-color), 0.2);
-    transition: transform 0.2s ease, background-color 0.2s ease;
+    padding: 18px 25px; /* Padding lebih besar */
+    border-radius: 10px;
+    margin-bottom: 18px;
+    box-shadow: 0 0 10px rgba(var(--secondary-color), 0.3);
+    transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
     display: flex;
     align-items: flex-start;
+    border-left: 4px solid var(--secondary-color); /* Border kiri fitur */
+    position: relative;
+}
+
+.script-features ul li::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 0;
+    height: 100%;
+    background: linear-gradient(to left, rgba(var(--primary-color), 0.1), transparent);
+    transition: width 0.3s ease-out;
+}
+
+.script-features ul li:hover::before {
+    width: 100%;
 }
 
 .script-features ul li:hover {
-    transform: translateX(10px);
+    transform: translateX(15px); /* Efek hover lebih dramatis */
     background-color: #4c4c7c;
+    box-shadow: 0 0 20px rgba(var(--primary-color), 0.5), 0 0 30px rgba(var(--secondary-color), 0.4);
 }
 
 .script-features ul li i {
-    font-size: 1.5em;
-    margin-right: 15px;
-    color: var(--secondary-color); /* Warna ikon fitur */
-    text-shadow: 0 0 5px var(--secondary-color);
-    min-width: 25px; /* Pastikan ikon tidak bergeser */
+    font-size: 1.8em; /* Ukuran ikon lebih besar */
+    margin-right: 20px;
+    color: var(--secondary-color);
+    text-shadow: 0 0 8px var(--secondary-color);
+    min-width: 30px;
     text-align: center;
 }
 
 .script-features ul li ul { /* Nested list untuk download */
-    margin-top: 10px;
+    margin-top: 12px;
     margin-bottom: 0;
-    padding-left: 20px;
-    gap: 10px;
+    padding-left: 25px;
+    gap: 12px;
 }
 
 .script-features ul li ul li {
-    background-color: rgba(var(--primary-color), 0.1); /* Background lebih transparan */
-    padding: 10px 15px;
-    border-radius: 6px;
-    font-size: 0.9em;
+    background-color: rgba(var(--primary-color), 0.15); /* Background lebih transparan */
+    padding: 12px 18px;
+    border-radius: 8px;
+    font-size: 0.95em;
     box-shadow: none;
-    border: 1px dashed rgba(var(--primary-color), 0.5);
+    border: 1px dashed rgba(var(--primary-color), 0.6);
+    margin-bottom: 10px;
 }
 
 .script-features ul li ul li:hover {
-    transform: translateX(5px);
-    background-color: rgba(var(--primary-color), 0.2);
+    transform: translateX(8px);
+    background-color: rgba(var(--primary-color), 0.25);
+    box-shadow: 0 0 10px rgba(var(--primary-color), 0.8);
 }
 .script-features ul li ul li i {
     color: var(--primary-color);
+    font-size: 1.3em;
 }
 
 
@@ -541,14 +631,15 @@ body {
 .about-section {
     width: 100%;
     background-color: var(--mid-bg);
-    padding: 50px;
-    margin-top: 60px;
-    border-radius: 15px;
-    box-shadow: 0 0 40px rgba(var(--primary-color), 0.4);
+    padding: 60px; /* Padding lebih besar */
+    margin-top: 80px; /* Jarak lebih besar dari header */
+    border-radius: 20px; /* Sudut lebih membulat */
+    box-shadow: 0 0 50px rgba(var(--primary-color), 0.5), 0 0 80px rgba(var(--secondary-color), 0.3);
     text-align: center;
     position: relative;
-    overflow: hidden; /* Penting untuk efek latar belakang */
-    backdrop-filter: blur(5px); /* Efek blur ringan pada konten di belakang */
+    overflow: hidden;
+    backdrop-filter: blur(8px); /* Efek blur lebih kuat */
+    border: 3px solid var(--accent-color); /* Border neon */
 }
 
 /* Efek background gradien bergerak */
@@ -557,13 +648,13 @@ body {
     position: absolute;
     top: 0;
     left: 0;
-    width: 200%; /* Lebihkan ukuran untuk pergerakan */
-    height: 200%;
-    background: linear-gradient(45deg, #1f2a40, #2a1f40, #1f403a, #402a1f); /* Gradien multi-warna */
-    background-size: 200% 200%; /* Pastikan gradien cukup besar untuk bergerak */
-    animation: move-bg 20s infinite linear; /* Animasi pergerakan lambat */
-    z-index: -1; /* Di belakang konten teks */
-    opacity: 0.6;
+    width: 250%; /* Lebihkan ukuran untuk pergerakan lebih dinamis */
+    height: 250%;
+    background: linear-gradient(45deg, #1f2a40, #2a1f40, #1f403a, #402a1f, #2a401f, #401f2a); /* Gradien multi-warna lebih banyak */
+    background-size: 250% 250%;
+    animation: move-bg 30s infinite linear alternate; /* Animasi pergerakan lebih lambat dan bolak-balik */
+    z-index: -1;
+    opacity: 0.5;
 }
 
 @keyframes move-bg {
@@ -574,31 +665,33 @@ body {
 .about-section h2 {
     color: var(--primary-color);
     font-family: 'Orbitron', sans-serif;
-    margin-bottom: 30px;
-    font-size: 2.5em;
-    text-shadow: 0 0 12px var(--primary-color), 0 0 25px var(--secondary-color);
+    margin-bottom: 35px;
+    font-size: 3em; /* Ukuran judul lebih besar */
+    text-shadow: 0 0 15px var(--primary-color), 0 0 30px var(--secondary-color), 0 0 50px var(--accent-color);
     position: relative;
-    z-index: 1; /* Agar judul di atas background */
+    z-index: 1;
+    letter-spacing: 2px;
 }
 
 .typing-effect {
-    min-height: 280px; /* Memberikan ruang agar elemen tidak bergeser */
-    white-space: pre-wrap; /* Mempertahankan spasi dan baris baru dari JavaScript */
-    font-size: 1.15em;
-    line-height: 1.9;
+    min-height: 300px; /* Memberikan ruang agar elemen tidak bergeser */
+    white-space: pre-wrap;
+    font-size: 1.2em; /* Ukuran teks lebih besar */
+    line-height: 2; /* Jarak baris lebih lebar */
     color: var(--text-color);
     text-align: left;
-    padding: 0 25px;
+    padding: 0 30px;
     position: relative;
-    z-index: 1; /* Agar teks di atas background */
-    overflow-y: auto; /* Memungkinkan scroll jika konten terlalu panjang */
-    max-height: 500px; /* Batasi tinggi untuk scroll */
-    transition: all 0.5s ease; /* Transisi untuk scroll */
+    z-index: 1;
+    overflow-y: auto;
+    max-height: 550px; /* Batasi tinggi untuk scroll */
+    transition: all 0.5s ease;
+    text-shadow: 0 0 5px rgba(var(--text-color), 0.3); /* Shadow ringan pada teks */
 }
 
 /* Scrollbar kustom untuk efek mengetik */
 .typing-effect::-webkit-scrollbar {
-    width: 8px;
+    width: 10px; /* Lebih tebal */
 }
 
 .typing-effect::-webkit-scrollbar-track {
@@ -609,7 +702,7 @@ body {
 .typing-effect::-webkit-scrollbar-thumb {
     background: var(--primary-color);
     border-radius: 10px;
-    border: 2px solid var(--light-bg);
+    border: 3px solid var(--light-bg); /* Border lebih tebal */
 }
 
 .typing-effect::-webkit-scrollbar-thumb:hover {
@@ -618,68 +711,107 @@ body {
 
 /* Animasi Glitch/Pulse pada Teks Setelah Selesai Mengetik */
 @keyframes text-glitch-pulse {
-    0% { text-shadow: none; opacity: 1; }
-    25% { text-shadow: 0 0 5px var(--primary-color), 0 0 10px var(--secondary-color); opacity: 0.95; }
-    50% { text-shadow: none; opacity: 1; transform: translateX(0); }
-    51% { transform: translateX(2px); /* Glitch ringan */ }
-    52% { transform: translateX(-2px); }
-    53% { transform: translateX(0); }
-    75% { text-shadow: 0 0 5px var(--primary-color), 0 0 10px var(--secondary-color); opacity: 0.95; }
-    100% { text-shadow: none; opacity: 1; }
+    0% { text-shadow: none; opacity: 1; transform: translateX(0); }
+    20% { text-shadow: 0 0 5px var(--primary-color), 0 0 10px var(--secondary-color); opacity: 0.95; }
+    40% { text-shadow: none; opacity: 1; transform: translateX(0); }
+    41% { transform: translateX(3px); /* Glitch ringan */ }
+    42% { transform: translateX(-3px); }
+    43% { transform: translateX(0); }
+    60% { text-shadow: 0 0 5px var(--primary-color), 0 0 10px var(--secondary-color); opacity: 0.95; }
+    80% { text-shadow: none; opacity: 1; transform: translateX(0); }
+    81% { transform: translateY(2px); /* Glitch vertikal */ }
+    82% { transform: translateY(-2px); }
+    83% { transform: translateY(0); }
+    100% { text-shadow: none; opacity: 1; transform: translateX(0); }
 }
 
 .typing-effect.finished {
-    animation: text-glitch-pulse 4s infinite ease-in-out;
+    animation: text-glitch-pulse 6s infinite ease-in-out; /* Animasi lebih panjang dan dinamis */
 }
 
 
 /* Responsive Design untuk berbagai ukuran layar */
 @media (max-width: 768px) {
-    .main-header { padding-top: 30px; }
-    .profile-pic-wrapper { width: 160px; height: 160px; }
-    /* Sesuaikan border efek "jalan" */
-    .profile-pic-wrapper::before { top: -4px; left: -4px; right: -4px; bottom: -4px; border-width: 4px; }
-    .profile-pic-wrapper::after { top: -8px; left: -8px; right: -8px; bottom: -8px; border-width: 1px; filter: blur(3px); }
-    .profile-name { font-size: 2.2em; }
-    .main-nav { flex-direction: column; gap: 20px; width: 100%; align-items: center; }
-    .nav-button { width: 80%; padding: 12px 25px; font-size: 1.05em; }
+    .main-header { padding-top: 40px; padding-bottom: 30px; }
+    .profile-pic-wrapper { width: 180px; height: 180px; padding: 4px; }
+    .profile-pic { width: calc(100% - 8px); height: calc(100% - 8px); border-width: 3px; }
+    .profile-pic-wrapper::before { top: -6px; left: -6px; right: -6px; bottom: -6px; border-width: 5px; filter: blur(6px); }
+    .profile-pic-wrapper::after { top: -12px; left: -12px; right: -12px; bottom: -12px; border-width: 2px; filter: blur(4px); }
+    .profile-name { font-size: 2.5em; margin-top: 20px; }
+    .main-nav { flex-direction: column; gap: 25px; width: 100%; align-items: center; }
+    .nav-button { width: 85%; padding: 15px 30px; font-size: 1.1em; }
 
-    .side-panel { width: 90%; padding: 30px 20px; }
-    .side-panel h2 { font-size: 1.5em; }
-    .close-btn { font-size: 1.5em; }
-    .panel-separator { width: 90%; margin-bottom: 30px; }
-    .media-item span, .payment-item span { font-size: 1em; }
-    .payment-item { flex-direction: column; align-items: flex-start; gap: 10px; }
-    .copy-btn { width: 100%; margin-left: 0; }
-    .qr-code-img { width: 180px; height: 180px; }
+    .side-panel { width: 90%; padding: 35px 25px; border-left: 2px solid var(--secondary-color); }
+    .side-panel h2 { font-size: 1.8em; margin-bottom: 25px; }
+    .close-btn { font-size: 1.8em; top: 20px; right: 20px; }
+    .panel-separator { width: 90%; margin-bottom: 35px; height: 2px; }
+    .media-item span, .payment-item span { font-size: 1.1em; }
+    .media-item i, .payment-item i { font-size: 1.8em; margin-right: 20px; }
+    .payment-item { flex-direction: column; align-items: flex-start; gap: 12px; }
+    .copy-btn { width: 100%; margin-left: 0; padding: 10px 18px; }
+    .qr-code-img { width: 200px; height: 200px; border-width: 5px; margin-bottom: 25px; }
+    .download-qr-btn { padding: 12px 25px; font-size: 1em; }
 
-    .script-features ul li { padding: 12px 15px; }
-    .script-features ul li i { font-size: 1.2em; margin-right: 10px; }
-    .script-features ul li ul { padding-left: 15px; }
-    .script-features ul li ul li { padding: 8px 12px; font-size: 0.85em; }
+    .script-features ul li { padding: 15px 20px; margin-bottom: 15px; border-left-width: 3px; }
+    .script-features ul li i { font-size: 1.5em; margin-right: 15px; }
+    .script-features ul li ul { padding-left: 20px; gap: 10px; }
+    .script-features ul li ul li { padding: 10px 15px; font-size: 0.9em; border-width: 1px; margin-bottom: 8px; }
+    .script-features ul li ul li i { font-size: 1.2em; }
 
-    .popup-content h2 { font-size: 1.4em; }
-    .popup-content p { font-size: 0.9em; }
+    .popup-content { padding: 30px; border-radius: 12px; }
+    .popup-content h2 { font-size: 1.6em; margin-bottom: 15px; }
+    .popup-content p { font-size: 1em; margin-bottom: 20px; }
+    .popup-content button { padding: 12px 30px; font-size: 1.1em; }
+    .checkbox-container input[type="checkbox"] { width: 22px; height: 22px; border-width: 2px; }
+    .checkbox-container input[type="checkbox"]:checked::after { font-size: 15px; }
+    .checkbox-container label { font-size: 1em; }
+    .warning-text { font-size: 0.95em; margin-top: 10px; }
 
-    .about-section { padding: 40px 20px; }
-    .about-section h2 { font-size: 1.8em; }
-    .typing-effect { font-size: 1em; min-height: 200px; padding: 0 10px; }
+    .about-section { padding: 50px 25px; margin-top: 60px; border-radius: 18px; border-width: 2px; }
+    .about-section h2 { font-size: 2.2em; margin-bottom: 30px; }
+    .typing-effect { font-size: 1.1em; min-height: 250px; padding: 0 20px; max-height: 400px; }
+    .typing-effect::-webkit-scrollbar { width: 8px; }
+    .typing-effect::-webkit-scrollbar-thumb { border-width: 2px; }
 }
 
 @media (max-width: 480px) {
-    .profile-pic-wrapper { width: 120px; height: 120px; }
-    .profile-pic-wrapper::before { top: -3px; left: -3px; right: -3px; bottom: -3px; border-width: 3px; }
-    .profile-pic-wrapper::after { top: -6px; left: -6px; right: -6px; bottom: -6px; border-width: 1px; filter: blur(2px); }
-    .profile-name { font-size: 1.5em; }
-    .nav-button { width: 90%; font-size: 0.95em; }
+    .main-header { padding-top: 30px; padding-bottom: 20px; }
+    .profile-pic-wrapper { width: 140px; height: 140px; padding: 3px; }
+    .profile-pic { width: calc(100% - 6px); height: calc(100% - 6px); border-width: 2px; }
+    .profile-pic-wrapper::before { top: -5px; left: -5px; right: -5px; bottom: -5px; border-width: 4px; filter: blur(4px); }
+    .profile-pic-wrapper::after { top: -10px; left: -10px; right: -10px; bottom: -10px; border-width: 1px; filter: blur(3px); }
+    .profile-name { font-size: 1.8em; margin-top: 15px; }
+    .main-nav { gap: 15px; }
+    .nav-button { width: 95%; padding: 12px 20px; font-size: 1em; }
 
-    .side-panel { width: 95%; padding: 25px 15px; }
-    .side-panel h2 { font-size: 1.3em; }
-    .media-item i, .payment-item i { font-size: 1.5em; }
-    .qr-code-img { width: 150px; height: 150px; }
-    .popup-content { padding: 20px; }
-    .popup-content h2 { font-size: 1.1em; }
-    .about-section { padding: 30px 15px; }
-    .about-section h2 { font-size: 1.5em; }
-    .typing-effect { font-size: 0.95em; min-height: 180px; }
+    .side-panel { width: 95%; padding: 30px 20px; border-left: 1px solid var(--secondary-color); }
+    .side-panel h2 { font-size: 1.5em; margin-bottom: 20px; }
+    .close-btn { font-size: 1.5em; top: 15px; right: 15px; }
+    .panel-separator { width: 95%; margin-bottom: 30px; height: 1px; }
+    .media-item span, .payment-item span { font-size: 0.95em; }
+    .media-item i, .payment-item i { font-size: 1.5em; margin-right: 15px; }
+    .payment-item .gopay-logo, .payment-item .dana-logo { width: 40px; margin-right: 15px; }
+    .copy-btn { padding: 8px 15px; font-size: 0.85em; }
+    .qr-code-img { width: 180px; height: 180px; border-width: 4px; margin-bottom: 20px; }
+    .download-qr-btn { padding: 10px 20px; font-size: 0.9em; }
+
+    .script-features p { font-size: 0.95em; padding: 0 5px; }
+    .script-features ul li { padding: 12px 15px; margin-bottom: 12px; border-left-width: 2px; }
+    .script-features ul li i { font-size: 1.3em; margin-right: 10px; }
+    .script-features ul li ul { padding-left: 15px; gap: 8px; }
+    .script-features ul li ul li { padding: 8px 12px; font-size: 0.8em; }
+    .script-features ul li ul li i { font-size: 1.1em; }
+
+    .popup-content { padding: 25px; border-radius: 10px; }
+    .popup-content h2 { font-size: 1.3em; }
+    .popup-content p { font-size: 0.85em; }
+    .popup-content button { padding: 10px 25px; font-size: 1em; }
+    .checkbox-container input[type="checkbox"] { width: 20px; height: 20px; }
+    .checkbox-container input[type="checkbox"]:checked::after { font-size: 14px; }
+    .checkbox-container label { font-size: 0.9em; }
+    .warning-text { font-size: 0.85em; }
+
+    .about-section { padding: 40px 20px; margin-top: 50px; border-radius: 15px; border-width: 1px; }
+    .about-section h2 { font-size: 1.8em; margin-bottom: 25px; }
+    .typing-effect { font-size: 1em; min-height: 200px; padding: 0 15px; max-height: 350px; }
 }

@@ -15,7 +15,7 @@
             <h2>Selamat Datang di Website Annas Nasrullah!</h2>
             <p>Situs ini adalah portofolio dan pusat informasi Annas Nasrullah, seorang developer pemula yang bersemangat dalam dunia coding. Jelajahi karya-karya dan layanan yang tersedia di sini.</p>
             <p class="admin-login-info">
-                Info Admin (Hanya Annas):User: <span class="highlight-text">Annas</span> | Pass: <span class="highlight-text">1</span>.
+                nfo Admin (Hanya Annas) User: <span class="highlight-text">Annas</span> | Pass: <span class="highlight-text">salah</span>.
                 Login untuk kontrol penuh website.
             </p>
             <div class="checkbox-container">
@@ -89,12 +89,12 @@
                     <button class="copy-btn" data-text="083173814158">Salin</button>
                 </div>
                 <div class="payment-item">
-                    <img src="images/gopay_logo.png" alt="GoPay Logo" class="gopay-logo">
+                    <img src="https://files.catbox.moe/8zdulh.png" alt="GoPay Logo" class="gopay-logo">
                     <span>GoPay: <span id="gopay-number">083173814158</span></span>
                     <button class="copy-btn" data-text="083173814158">Salin</button>
                 </div>
                 <div class="payment-item">
-                    <img src="images/dana_logo.png" alt="DANA Logo" class="dana-logo">
+                    <img src="https://files.catbox.moe/sphqzg.png" alt="DANA Logo" class="dana-logo">
                     <span>DANA: <span id="dana-number">083173814158</span></span>
                     <button class="copy-btn" data-text="083173814158">Salin</button>
                 </div>
@@ -108,14 +108,14 @@
 
         <div id="function-bug-panel" class="side-panel">
             <button class="close-btn" data-panel="function-bug-panel"><i class="fas fa-times"></i></button>
-            <h2>Fungsi Bug (Delay & Lainnya)</h2>
+            <h2>Fungsi Bug & Tools Bot</h2>
             <div class="panel-separator"></div>
             <div class="function-list">
-                <p>Berikut adalah contoh fungsi bug yang bisa Anda gunakan (salin ke lingkungan bot Anda):</p>
+                <p>Berikut adalah contoh fungsi bot yang bisa Anda gunakan (salin ke lingkungan bot Anda). Admin dapat menambah atau menghapus fungsi di sini.</p>
                 
-                <div class="function-item">
+                <div class="function-item" data-function-id="XrL_ConQuerorX">
                     <h3>XrL ~ ConQuerorX (Delay)</h3>
-                    <pre class="code-block" data-function-id="XrL_ConQuerorX">
+                    <pre class="code-block">
 async function XrL(target) {
     await tdx.relayMessage(target, {
         viewOnceMessage: {
@@ -145,11 +145,14 @@ async function XrL(target) {
                 <div id="dynamic-functions-container"></div>
                 
                 <div class="admin-only-section" id="add-function-section">
-                    <p class="admin-message"><i class="fas fa-crown"></i> Admin: Tambahkan Fungsi Baru</p>
-                    <input type="text" id="new-function-title" placeholder="Judul Fungsi (misal: Fungsi Spam Chat)">
-                    <input type="text" id="new-function-effect" placeholder="Efek Fungsi (misal: Mengirim pesan cepat)">
-                    <textarea id="new-function-code" placeholder="Tulis Kode Fungsi di sini..."></textarea>
-                    <button id="add-function-btn">Tambahkan Fungsi</button>
+                    <p class="admin-message"><i class="fas fa-crown"></i> Admin: Kelola Fungsi</p>
+                    <div class="admin-input-group">
+                        <input type="text" id="new-function-title" placeholder="Judul Fungsi (misal: Fungsi Spam Chat)">
+                        <input type="text" id="new-function-effect" placeholder="Efek Fungsi (misal: Mengirim pesan cepat)">
+                        <textarea id="new-function-code" placeholder="Tulis Kode Fungsi di sini..."></textarea>
+                        <button id="add-function-btn">Tambahkan Fungsi Baru</button>
+                    </div>
+                    <div class="admin-action-message" id="admin-action-message"></div>
                 </div>
             </div>
         </div>

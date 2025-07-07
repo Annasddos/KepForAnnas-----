@@ -1,25 +1,25 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // --- Pop-up Pemberitahuan Awal ---
+    // --- Initial Welcome Pop-up ---
     const welcomePopup = document.getElementById('welcome-popup');
     const ageConsentCheckbox = document.getElementById('age-consent');
     const popupOkBtn = document.getElementById('popup-ok-btn');
     const consentWarning = document.getElementById('consent-warning');
 
-    // Tampilkan pop-up saat halaman dimuat
+    // Display the pop-up on page load
     welcomePopup.classList.remove('hidden');
 
     popupOkBtn.addEventListener('click', () => {
         if (ageConsentCheckbox.checked) {
-            welcomePopup.classList.add('hidden'); // Sembunyikan pop-up dengan animasi
-            // Mulai efek mengetik setelah pop-up benar-benar hilang
-            setTimeout(startTypingEffect, 600); // Durasi disesuaikan dengan transisi CSS pop-up (lebih lama karena animasinya lebih smooth)
+            welcomePopup.classList.add('hidden'); // Hide pop-up with animation
+            // Start typing effect after pop-up fully disappears
+            setTimeout(startTypingEffect, 600); // Matches CSS transition duration for smoothness
         } else {
             consentWarning.textContent = 'Mohon centang panduan kami untuk melanjutkan.';
-            consentWarning.classList.add('show'); // Tampilkan peringatan
+            consentWarning.classList.add('show'); // Show warning
         }
     });
 
-    // Sembunyikan peringatan jika checkbox dicentang setelahnya
+    // Hide warning if checkbox is checked later
     ageConsentCheckbox.addEventListener('change', () => {
         if (ageConsentCheckbox.checked) {
             consentWarning.classList.remove('show');
@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // --- Panel Navigasi (Media, Payment, Function Bug) ---
+    // --- Side Panels (Media, Payment, Function Bug) ---
     const goToMediaBtn = document.getElementById('go-to-media-btn');
     const goToPaymentBtn = document.getElementById('go-to-payment-btn');
     const goToFunctionBugBtn = document.getElementById('go-to-function-bug-btn'); // Button for Function Bug
@@ -96,30 +96,49 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let isAdminLoggedIn = false;
 
+    // Check login status from localStorage on load (for persistence across refresh)
+    if (localStorage.getItem('isAdminLoggedIn') === 'true') {
+        isAdminLoggedIn = true;
+        addFunctionSection.classList.add('visible');
+        // Add class to default function item if already logged in (for delete button visibility)
+        const defaultFunctionItem = document.querySelector('.function-item[data-function-id="XrL_ConQuerorX"]');
+        if(defaultFunctionItem) {
+            defaultFunctionItem.classList.add('admin-visible');
+        }
+    }
+
+
     adminLoginBtn.addEventListener('click', () => {
         const username = adminUsernameInput.value;
         const password = adminPasswordInput.value;
 
         if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
             isAdminLoggedIn = true;
+            localStorage.setItem('isAdminLoggedIn', 'true'); // Save login status
             adminLoginPanel.classList.add('hidden-panel');
             addFunctionSection.classList.add('visible'); // Show admin-only section
-            alert('Login Admin Berhasil! Anda sekarang dapat menambahkan fungsi.');
+            
+            // Make delete buttons visible for ALL functions including default
+            const allFunctionItems = document.querySelectorAll('.function-item');
+            allFunctionItems.forEach(item => item.classList.add('admin-visible'));
+
+            alert('Login Admin Berhasil! Anda sekarang dapat menambahkan & menghapus fungsi.');
         } else {
             adminLoginMessage.textContent = 'Username atau password salah!';
             adminLoginMessage.classList.add('show');
         }
     });
 
-    // --- Add Dynamic Function (Admin Only) ---
+    // --- Add/Delete Dynamic Functions (Admin Only) ---
     const newFunctionTitleInput = document.getElementById('new-function-title');
     const newFunctionEffectInput = document.getElementById('new-function-effect');
     const newFunctionCodeTextarea = document.getElementById('new-function-code');
     const addFunctionBtn = document.getElementById('add-function-btn');
     const dynamicFunctionsContainer = document.getElementById('dynamic-functions-container');
+    const adminActionMessage = document.getElementById('admin-action-message');
+
 
     // Load functions from localStorage (simulated persistence)
-    // Initialize with a default empty array if nothing is stored
     let dynamicFunctions = JSON.parse(localStorage.getItem('dynamicFunctions')) || [];
 
     const renderDynamicFunctions = () => {
@@ -127,21 +146,41 @@ document.addEventListener('DOMContentLoaded', () => {
         dynamicFunctions.forEach((func, index) => {
             const functionItem = document.createElement('div');
             functionItem.classList.add('function-item');
+            functionItem.dataset.functionIndex = index; // Store index for deletion
+            if (isAdminLoggedIn) {
+                functionItem.classList.add('admin-visible'); // Show delete button if admin
+            }
+
             functionItem.innerHTML = `
                 <h3>${func.title}</h3>
                 <pre class="code-block" data-function-id="dynamic_func_${index}">${func.code}</pre>
                 <button class="copy-code-btn" data-target="dynamic_func_${index}">Salin Kode</button>
                 <p class="effect-text">EFFECT: ${func.effect}</p>
+                <button class="delete-function-btn" data-index="${index}"><i class="fas fa-trash-alt"></i></button>
             `;
             dynamicFunctionsContainer.appendChild(functionItem);
         });
-        // Re-attach event listeners for new copy buttons
+        // Re-attach event listeners for new copy and delete buttons
         attachCopyCodeListeners();
+        attachDeleteFunctionListeners();
+    };
+
+    const showAdminMessage = (message, type = 'success') => {
+        adminActionMessage.textContent = message;
+        adminActionMessage.className = 'admin-action-message show'; // Reset class
+        if (type === 'error') {
+            adminActionMessage.style.color = 'var(--error-color)';
+        } else {
+            adminActionMessage.style.color = 'var(--admin-color)';
+        }
+        setTimeout(() => {
+            adminActionMessage.classList.remove('show');
+        }, 3000);
     };
 
     addFunctionBtn.addEventListener('click', () => {
         if (!isAdminLoggedIn) {
-            alert('Anda harus login sebagai Admin untuk menambahkan fungsi!');
+            showAdminMessage('Anda harus login sebagai Admin untuk menambahkan fungsi!', 'error');
             return;
         }
 
@@ -157,11 +196,36 @@ document.addEventListener('DOMContentLoaded', () => {
             newFunctionTitleInput.value = '';
             newFunctionEffectInput.value = '';
             newFunctionCodeTextarea.value = '';
-            alert('Fungsi berhasil ditambahkan!');
+            showAdminMessage('Fungsi berhasil ditambahkan!');
         } else {
-            alert('Mohon isi semua kolom untuk menambahkan fungsi!');
+            showAdminMessage('Mohon isi semua kolom untuk menambahkan fungsi!', 'error');
         }
     });
+
+    // Attach listener for delete buttons
+    function attachDeleteFunctionListeners() {
+        const deleteButtons = document.querySelectorAll('.delete-function-btn');
+        deleteButtons.forEach(button => {
+            button.removeEventListener('click', handleDeleteFunction); // Prevent duplicates
+            button.addEventListener('click', handleDeleteFunction);
+        });
+    }
+
+    function handleDeleteFunction(e) {
+        if (!isAdminLoggedIn) {
+            showAdminMessage('Anda harus login sebagai Admin untuk menghapus fungsi!', 'error');
+            return;
+        }
+
+        const indexToDelete = parseInt(e.target.dataset.index);
+        if (confirm('Apakah Anda yakin ingin menghapus fungsi ini?')) {
+            dynamicFunctions.splice(indexToDelete, 1); // Remove item from array
+            localStorage.setItem('dynamicFunctions', JSON.stringify(dynamicFunctions)); // Update localStorage
+            renderDynamicFunctions(); // Re-render the list
+            showAdminMessage('Fungsi berhasil dihapus!');
+        }
+    }
+
 
     // Initial render of dynamic functions when the page loads
     renderDynamicFunctions();
@@ -201,16 +265,16 @@ document.addEventListener('DOMContentLoaded', () => {
     attachCopyCodeListeners();
 
 
-    // --- Tombol Unduh QR (mengambil dari Catbox.moe) ---
+    // --- Download QR Button (from Catbox.moe) ---
     const downloadQrBtn = document.querySelector('.download-qr-btn');
     if (downloadQrBtn) {
         downloadQrBtn.addEventListener('click', () => {
             const qrImageUrl = document.querySelector('.qr-code-img').src;
-            // Cek apakah URL QR code valid (contoh: mengandung http/https)
+            // Check if QR code URL is valid (e.g., contains http/https)
             if (qrImageUrl && (qrImageUrl.startsWith('http://') || qrImageUrl.startsWith('https://'))) {
                 const link = document.createElement('a');
                 link.href = qrImageUrl;
-                link.download = 'QR_Annas_Nasrullah.png'; // Nama file yang akan diunduh
+                link.download = 'QR_Annas_Nasrullah.png'; // Desired file name for download
                 document.body.appendChild(link);
                 link.click();
                 document.body.removeChild(link);
@@ -221,7 +285,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- Efek Mengetik untuk Bagian "Tentang Annas" ---
+    // --- Typing Effect for "About Annas" Section ---
     const aboutTextElement = document.getElementById('about-text');
     const fullText = `Annas Nasrullah adalah sosok muda berusia 18 tahun yang tidak hanya bermimpi, tapi bergerak. Ia melangkah ke dunia coding bukan sekadar untuk belajar, tapi untuk menciptakan. Dalam sunyi malam dan layar gelap, jemarinya menari di atas keyboard, menulis masa depan baris demi baris.
 
@@ -229,9 +293,7 @@ Ia bukan sekadar developer pemula. Ia adalah arsitek ide, pemburu solusi, dan pe
 
 Di balik error yang muncul, ia menemukan tantangan. Di balik bug yang membandel, ia melihat kesempatan. Ia tahu, setiap kegagalan hanya batu loncatan menuju keberhasilan. Dan di dunia yang dipenuhi algoritma dan kemungkinan tak terbatas, Annas memilih untuk menjadi pembeda.
 
-Ia tidak menunggu masa depan, ia sedang menulisnya. Dan dunia, cepat atau lambat, akan mengenal nama Annas Nasrullah bukan sebagai pemula, tapi sebagai sosok yang mengubah arah teknologi dengan keberanian dan tekadnya sendiri.
-
-)`;
+Ia tidak menunggu masa depan, ia sedang menulisnya. Dan dunia, cepat atau lambat, akan mengenal nama Annas Nasrullah bukan sebagai pemula, tapi sebagai sosok yang mengubah arah teknologi dengan keberanian dan tekadnya sendiri.)`;
 
     let charIndex = 0;
     let typingInterval;
@@ -240,20 +302,20 @@ Ia tidak menunggu masa depan, ia sedang menulisnya. Dan dunia, cepat atau lambat
         if (charIndex < fullText.length) {
             aboutTextElement.textContent += fullText.charAt(charIndex);
             charIndex++;
-            // Sesuaikan kecepatan mengetik di sini (nilai lebih kecil = lebih cepat)
-            typingInterval = setTimeout(typeChar, 30); // 30 milidetik per karakter
+            // Adjust typing speed here (smaller value = faster)
+            typingInterval = setTimeout(typeChar, 30); // 30 milliseconds per character
         } else {
-            // Setelah selesai mengetik, tambahkan kelas untuk efek glitch/pulse
+            // After typing finishes, add class for glitch/pulse effect
             aboutTextElement.classList.add('finished');
         }
     }
 
     function startTypingEffect() {
-        // Bersihkan teks dan reset indeks sebelum memulai
+        // Clear existing text and reset index
         aboutTextElement.textContent = '';
         charIndex = 0;
-        aboutTextElement.classList.remove('finished'); // Hapus kelas jika ada dari sebelumnya
-        clearTimeout(typingInterval); // Hapus interval yang mungkin masih berjalan
-        typeChar(); // Mulai efek mengetik
+        aboutTextElement.classList.remove('finished'); // Remove class if present
+        clearTimeout(typingInterval); // Clear any pending interval
+        typeChar(); // Start the typing effect
     }
 });

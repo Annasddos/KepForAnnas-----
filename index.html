@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Annas Nasrullah - Developer Pemula</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+    <div id="welcome-popup" class="popup-overlay">
+        <div class="popup-content">
+            <h2>Selamat Datang di Website Annas Nasrullah!</h2>
+            <p>Situs ini adalah portofolio dan pusat informasi Annas Nasrullah, seorang developer pemula yang bersemangat dalam dunia coding. Jelajahi karya-karya dan layanan yang tersedia di sini.</p>
+            <div class="checkbox-container">
+                <input type="checkbox" id="age-consent">
+                <label for="age-consent">Saya menyetujui bahwa saya berusia 15 tahun ke atas.</label>
+            </div>
+            <button id="popup-ok-btn">OK</button>
+            <p id="consent-warning" class="warning-text"></p>
+        </div>
+    </div>
+
+    <header class="main-header">
+        <div class="profile-area">
+            <div class="profile-pic-wrapper">
+                <img src="https://files.catbox.moe/contoh_foto_profil_mu.png" alt="Foto Profil Annas" class="profile-pic">
+                </div>
+            <h1 class="profile-name">Annas</h1>
+        </div>
+        <nav class="main-nav">
+            <button id="go-to-media-btn" class="nav-button">Go to Media</button>
+            <button id="go-to-payment-btn" class="nav-button">Go to Payment</button>
+            <button id="go-to-script-btn" class="nav-button">Go to Script</button>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        <div id="media-panel" class="side-panel">
+            <button class="close-btn" data-panel="media-panel"><i class="fas fa-times"></i></button>
+            <h2>Media Sosial Annas</h2>
+            <div class="panel-separator"></div>
+            <div class="media-links">
+                <a href="https://t.me/Alpooooooofoluv" target="_blank" class="media-item">
+                    <i class="fab fa-telegram-plane"></i>
+                    <span>Telegram</span>
+                </a>
+                <a href="https://api.whatsapp.com/send/?phone=+6283173814158" target="_blank" class="media-item">
+                    <i class="fab fa-whatsapp"></i>
+                    <span>WhatsApp</span>
+                </a>
+            </div>
+        </div>
+
+        <div id="payment-panel" class="side-panel">
+            <button class="close-btn" data-panel="payment-panel"><i class="fas fa-times"></i></button>
+            <h2>Dukung Annas!</h2>
+            <div class="panel-separator"></div>
+            <div class="payment-methods">
+                <div class="payment-item">
+                    <i class="fas fa-money-check-dollar"></i>
+                    <span>Bank Transfer: <span id="bank-number">083173814158</span></span>
+                    <button class="copy-btn" data-text="083173814158">Salin</button>
+                </div>
+                <div class="payment-item">
+                    <img src="images/gopay_logo.png" alt="GoPay Logo" class="gopay-logo">
+                    <span>GoPay: <span id="gopay-number">083173814158</span></span>
+                    <button class="copy-btn" data-text="083173814158">Salin</button>
+                </div>
+                <div class="payment-item qr-code-section">
+                    <h3>Scan QR Code</h3>
+                    <img src="https://files.catbox.moe/contoh_qr_code_mu.png" alt="QR Code Pembayaran" class="qr-code-img">
+                    <button class="download-qr-btn">Unduh QR</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="script-panel" class="side-panel">
+            <button class="close-btn" data-panel="script-panel"><i class="fas fa-times"></i></button>
+            <h2>Keunggulan Script ApoPou</h2>
+            <div class="panel-separator"></div>
+            <div class="script-features">
+                <p>Script Bot WhatsApp & Telegram karya Annas Nasrullah (ApoPou) dirancang dengan performa tinggi, bebas error dan lag, serta antarmuka pengguna yang menawan. Berikut adalah beberapa fitur unggulan:</p>
+                <ul>
+                    <li><i class="fas fa-shield-alt"></i> Fitur Jaga Group (Anti-link, Anti-spam, Dll.)</li>
+                    <li><i class="fas fa-download"></i> Fitur Download
+                        <ul>
+                            <li><i class="fab fa-tiktok"></i> TikTok (tanpa watermark)</li>
+                            <li><i class="fab fa-youtube"></i> YouTube (video/audio)</li>
+                        </ul>
+                    </li>
+                    <li><i class="fas fa-paper-plane"></i> Fitur Push Kontak
+                        <ul>
+                            <li><i class="fas fa-users"></i> Khusus Grup</li>
+                            <li><i class="fas fa-id-card"></i> Khusus Menggunakan ID Grup</li>
+                        </ul>
+                    </li>
+                    <li><i class="fas fa-bug"></i> Fitur Bug</li>
+                    <li><i class="fas fa-ellipsis-h"></i> Dan Fitur Lainnya yang terus dikembangkan!</li>
+                </ul>
+                <p>Semua fitur didukung dengan UI yang interaktif dan *smooth*, memastikan pengalaman terbaik!</p>
+            </div>
+        </div>
+
+        <section class="about-section">
+            <h2>Tentang Annas</h2>
+            <div class="typing-effect" id="about-text"></div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
